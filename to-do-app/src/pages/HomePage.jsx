@@ -1,6 +1,7 @@
 import { useAuth } from '../auth/AuthContext';
 import { useNavigate } from 'react-router-dom';
 import { useState, useEffect } from 'react';
+import { getTasks, addTask, updateTask, deleteTask as deleteTaskAPI } from '../api';
 
 function HomePage() {
   const { user, logout } = useAuth();
@@ -42,16 +43,13 @@ useEffect(() => {
 // 🟡 1. Charger les tâches une fois que user.email est prêt
 useEffect(() => {
   if (user && user.email) {
-    const stored = localStorage.getItem(`tasks-${user.email}`);
-    try {
-      const parsed = JSON.parse(stored);
-      if (Array.isArray(parsed)) {
-        setTasks(parsed);
-      }
-    } catch (err) {
-      console.error('Erreur lecture des tâches :', err);
-    }
-    setIsLoaded(true); // ✅ Fin du chargement initial
+    getTasks()
+      .then((data) => {
+        const userTasks = data.filter(t => t.email === user.email);
+        setTasks(userTasks);
+        setIsLoaded(true);
+      })
+      .catch((err) => console.error("Erreur chargement des tâches :", err));
   }
 }, [user]);
 
@@ -63,21 +61,27 @@ useEffect(() => {
   }
 }, [tasks, user, isLoaded]);
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    if (newTask.trim() === '') return;
+  const handleSubmit = async (e) => {
+  e.preventDefault();
+  if (newTask.trim() === '') return;
 
-    const task = {
-      id: Date.now(),
-      text: newTask,
-      done: false,
-      priority: priority,
-      dueDate: dueDate,
-    };
+  const task = {
 
-    setTasks([...tasks, task]);
-    setNewTask('');
+    text: newTask,
+    done: false,
+    priority: priority,
+    dueDate: dueDate,
+    email: user.email, // ⬅️ très important pour filtrer par utilisateur
   };
+
+  try {
+    const createdTask = await addTask(task);
+    setTasks([...tasks, createdTask]);
+    setNewTask('');
+  } catch (error) {
+    console.error("Erreur ajout tâche :", error);
+  }
+};
 
   const toggleTask = (id) => {
     const updated = tasks.map(task =>
@@ -86,9 +90,14 @@ useEffect(() => {
     setTasks(updated);
   };
 
-  const handleDelete = (id) => {
-  const updatedTasks = tasks.filter(task => task.id !== id);
-  setTasks(updatedTasks);
+const handleDelete = async (id) => {
+  try {
+    await deleteTaskAPI(id);
+    const updated = tasks.filter(task => task.id !== id);
+    setTasks(updated);
+  } catch (error) {
+    console.error("Erreur suppression tâche :", error);
+  }
 };
 
 const sortTasks = (tasks) => {
@@ -128,7 +137,24 @@ const startEditing = (task) => {
   });
 };
 
-const saveEdit = () => {
+const saveEdit = async () => {
+  try {
+    const editedTask = {
+      id: editingId,
+      ...editValues,
+      email: user.email,
+    };
+    await updateTask(editedTask);
+    const updated = tasks.map((task) =>
+      task.id === editingId ? editedTask : task
+    );
+    setTasks(updated);
+    setEditingId(null);
+  } catch (err) {
+    console.error("Erreur édition :", err);
+  }
+};
+/*const saveEdit = () => {
   const updated = tasks.map((task) =>
     task.id === editingId
       ? { ...task, ...editValues }
@@ -136,7 +162,7 @@ const saveEdit = () => {
   );
   setTasks(updated);
   setEditingId(null);
-};
+};*/
 
 const cancelEdit = () => {
   setEditingId(null);
