@@ -1,22 +1,29 @@
-// src/auth/AuthContext.jsx
 import { createContext, useContext, useEffect, useState } from 'react';
 
 const AuthContext = createContext();
 
 export function AuthProvider({ children }) {
   const [user, setUser] = useState(null);
-    const [loading, setLoading] = useState(true);
+  const [loading, setLoading] = useState(true);
 
-  useEffect(() => {
+ useEffect(() => {
+  try {
     const storedUser = JSON.parse(localStorage.getItem('user'));
-    if (storedUser) setUser(storedUser);
-      setLoading(false); 
-  }, []);
+    if (storedUser && typeof storedUser === 'object') {
+      setUser(storedUser);
+    } else {
+      localStorage.removeItem('user'); // 🔒 sécurité en cas de format cassé
+    }
+  } catch {
+    localStorage.removeItem('user');
+  }
+  setLoading(false);
+}, []);
 
-  const login = (email) => {
-    const fakeUser = { email };
-    setUser(fakeUser);
-    localStorage.setItem('user', JSON.stringify(fakeUser));
+  // ✅ Corrigé : accepte un objet user complet
+  const login = (userData) => {
+    setUser(userData);
+    localStorage.setItem('user', JSON.stringify(userData));
   };
 
   const logout = () => {

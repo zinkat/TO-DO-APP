@@ -1,27 +1,27 @@
 import { useAuth } from '../auth/AuthContext';
-import { useNavigate } from 'react-router-dom';
+//import { useNavigate } from 'react-router-dom';
 import { useState, useEffect } from 'react';
 import { getTasks, addTask, updateTask, deleteTask as deleteTaskAPI } from '../api';
 
 function HomePage() {
-  const { user, logout } = useAuth();
-  const navigate = useNavigate();
+  const { user } = useAuth();
+  //const navigate = useNavigate();
 
   const [tasks, setTasks] = useState([]);
   const [newTask, setNewTask] = useState('');
-  const [isLoaded, setIsLoaded] = useState(false);
+  //const [isLoaded, setIsLoaded] = useState(false);
   const [priority, setPriority] = useState('moyenne');
   const [dueDate, setDueDate] = useState('');
   const [sortBy, setSortBy] = useState('date'); // 'priority' ou 'date'
   const [searchTerm, setSearchTerm] = useState('');
-  const [theme, setTheme] = useState('light');
+  //const [theme, setTheme] = useState('light');
   const [editingId, setEditingId] = useState(null); // id de la tâche qu'on édite
   const [editValues, setEditValues] = useState({ text: '', priority: '', dueDate: '' });
 
 
 
 
-useEffect(() => {
+/*useEffect(() => {
   const savedTheme = localStorage.getItem('theme');
   if (savedTheme) {
     setTheme(savedTheme);
@@ -31,35 +31,35 @@ useEffect(() => {
   const newTheme = theme === 'light' ? 'dark' : 'light';
   setTheme(newTheme);
   localStorage.setItem('theme', newTheme);
-};
+};*/
 
 
 
-  const handleLogout = () => {
+  /*const handleLogout = () => {
     logout();
     navigate('/login');
-  };
+  };*/
 
-// 🟡 1. Charger les tâches une fois que user.email est prêt
+// Charger les tâches une fois que user.email est prêt
 useEffect(() => {
   if (user && user.email) {
     getTasks()
       .then((data) => {
         const userTasks = data.filter(t => t.email === user.email);
         setTasks(userTasks);
-        setIsLoaded(true);
+        //setIsLoaded(true);
       })
       .catch((err) => console.error("Erreur chargement des tâches :", err));
   }
 }, [user]);
 
 
-  // 🟢 2. Sauvegarder les tâches à chaque changement
-useEffect(() => {
+  //  Sauvegarder les tâches à chaque changement
+{/*useEffect(() => {
   if (user && user.email && isLoaded) {
     localStorage.setItem(`tasks-${user.email}`, JSON.stringify(tasks));
   }
-}, [tasks, user, isLoaded]);
+}, [tasks, user, isLoaded]);*/}
 
   const handleSubmit = async (e) => {
   e.preventDefault();
@@ -71,7 +71,7 @@ useEffect(() => {
     done: false,
     priority: priority,
     dueDate: dueDate,
-    email: user.email, // ⬅️ très important pour filtrer par utilisateur
+    email: user.email, // pour filtrer par utilisateur
   };
 
   try {
@@ -171,22 +171,24 @@ const cancelEdit = () => {
 
   return (
  
-<div className={`${theme === 'dark' ? 'dark' : ''}`}>
-  <div className="min-h-screen transition-colors duration-200  bg-white text-black dark:bg-gray-900 dark:text-white p-8">
+<div >
+  <div className="min-h-screen transition-colors duration-200 md:mt-8 bg-white text-black dark:bg-gray-900 dark:text-white p-6 md:p-8">
        <div className="max-w-6xl mx-auto">
-    <div className='flex flex-row space-x-4 space-x-2 justify-between items-center mb-8'>
-  <button
+  { /* <div className='flex flex-row space-x-4 space-x-2 justify-between items-center mb-8'>*/}
+ {/* <button
   onClick={toggleTheme}
   className="transition-colors duration-200  px-4 py-2 bg-gray-200 dark:bg-gray-700 text-gray-800 dark:text-white rounded-md hover:scale-105 transition "
 >
   {theme === 'light' ? '🌙 Mode sombre' : '☀️ Mode clair'}
-  </button>
-  <button
+  </button>*/}
+
+{  /*<button
     className=" transition-colors duration-200 bg-indigo-600 hover:bg-indigo-700 text-white px-4 py-2 rounded-md hover:scale-105 transition" onClick={handleLogout}>Déconnexion
-  </button>
-  </div>
+  </button>*/}
+  {/*</div>*/}
     <div>
-      <h1 className='text-center text-3xl mb-8'>Bienvenue, {user.email} !</h1>
+      <h1 className='text-center text-xl md:text-3xl mb-8'> Bonjour, {user.name || user.email} 👋 !</h1>
+
 
 <form onSubmit={handleSubmit} className="flex flex-col md:flex-row gap-2 md:gap-4 mt-4 ">
   <input
@@ -194,7 +196,7 @@ const cancelEdit = () => {
     placeholder="Ajouter une tâche"
     value={newTask}
     onChange={(e) => setNewTask(e.target.value)}
-    className="transition-colors duration-200 px-4 py-2 rounded-md border border-gray-300 bg-white text-black dark:bg-gray-800 dark:text-white dark:border-gray-600 focus:outline-none focus:ring-2 focus:ring-indigo-500 w-3/4"
+    className="transition-colors duration-200 px-4 py-2 rounded-md border border-gray-300 bg-white text-black dark:bg-gray-800 dark:text-white dark:border-gray-600 focus:outline-none focus:ring-2 focus:ring-indigo-500 placeholder:text-gray-400 dark:placeholder:text-gray-500 w-3/4"
     required
   />
 
@@ -222,7 +224,7 @@ const cancelEdit = () => {
     Ajouter
   </button>
 </form>
-<div style={{ marginTop: '20px' }}>
+<div className="mt-5">
   <label style={{ marginRight: '10px' }}>Trier par :</label>
   <select  className="px-3 py-2 rounded-md border border-gray-300 bg-white text-black dark:bg-gray-800 dark:text-white dark:border-gray-600 focus:outline-none"
  value={sortBy} onChange={(e) => setSortBy(e.target.value)}>
@@ -230,7 +232,7 @@ const cancelEdit = () => {
     <option value="priority">Priorité</option>
   </select>
 </div>
-<div style={{ marginTop: '20px'}}>
+<div className="mt-5">
   
   <input
     type="text"
@@ -242,15 +244,17 @@ const cancelEdit = () => {
   />
 </div>
 <h2 className="py-6  text-gray-500 dark:text-gray-400">Voici votre liste de tâches : </h2>
+   {tasks.length === 0 && (<h3 className="dark:text-gray-200 italic text-black text-lg font-medium text-center">Aucune tâche enregistrée 📝</h3> )}
 <ul className="mt-2 space-y-3">
   {sortTasks(tasks).map(task => (
+    
     <li
   key={task.id}
   className={`flex flex-col md:flex-row justify-between items-start md:items-center p-4 rounded-md shadow-sm border-l-4
     ${task.priority === 'haute' ? 'border-red-500' :
       task.priority === 'moyenne' ? 'border-yellow-400' :
       'border-green-500'}
-    ${isOverdue(task) ? ' bg-red-50 dark:bg-red-400/30' : 'bg-indigo-100 dark:bg-gray-800'}
+    ${isOverdue(task) ? ' bg-red-50 dark:bg-red-300/30' : 'bg-indigo-100 dark:bg-gray-800'}
   `}
 >
   {editingId === task.id ? (
@@ -276,9 +280,9 @@ const cancelEdit = () => {
         onChange={(e) => setEditValues({ ...editValues, dueDate: e.target.value })}
         className="px-3 py-2 rounded-md border bg-white text-black dark:bg-gray-800 dark:text-white"
       />
-      <div className="flex gap-2">
-        <button onClick={saveEdit} className="bg-indigo-400 text-white px-3 py-2 rounded-md">💾</button>
-        <button onClick={cancelEdit} className="bg-gray-400 text-white px-3 py-2 rounded-md">❌</button>
+      <div className="flex gap-2  justify-center">
+        <button onClick={saveEdit} className="bg-indigo-300 text-white px-2 py-1 rounded-md"><img src="enregistre.png" alt="" /></button>
+        <button onClick={cancelEdit} className="bg-indigo-300 text-white px-2 py-1 rounded-md"> <img src="annuler.png" alt="" /></button>
       </div>
     </div>
   ) : (
@@ -291,13 +295,13 @@ const cancelEdit = () => {
         <p className="text-sm italic text-gray-500 dark:text-gray-400 flex items-center gap-2">
           ({task.priority}) – {task.dueDate}
           {isOverdue(task) && (
-            <span className="text-red-500 font-semibold animate-pulse">⚠️ En retard</span>
+            <span className="text-red-500 font-semibold animate-pulse"> En retard</span>
           )}
         </p>
       </div>
-      <div className="flex gap-2 ml-4">
-        <button onClick={() => startEditing(task)} className="text-blue-500 hover:text-blue-700">✏️</button>
-        <button onClick={() => handleDelete(task.id)} className="text-red-500 hover:text-red-700">🗑</button>
+      <div className="flex m-auto  gap-2 md:ml-4">
+        <button onClick={() => startEditing(task)} className="text-blue-500 bg-indigo-300 text-white px-2 py-1 rounded-md  hover:text-blue-700"> <img src="crayon.png" alt="Modifier" /></button>
+        <button onClick={() => handleDelete(task.id)} className="text-red-500 bg-indigo-300 text-white px-2 py-1 rounded-md hover:text-red-700"> <img src="poubelle.png" alt="Supprimer" /></button>
       </div>
     </>
   )}
