@@ -17,6 +17,7 @@ function LoginPage() {
       navigate('/');
     } else {
       alert('Utilisateur non trouvé. Veuillez vous inscrire.');
+      navigate('/register');
     }
   } catch (err) {
     console.error("Erreur login :", err);

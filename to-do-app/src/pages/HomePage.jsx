@@ -1,44 +1,20 @@
 import { useAuth } from '../auth/AuthContext';
-//import { useNavigate } from 'react-router-dom';
 import { useState, useEffect } from 'react';
 import { getTasks, addTask, updateTask, deleteTask as deleteTaskAPI } from '../api';
 
 function HomePage() {
   const { user } = useAuth();
-  //const navigate = useNavigate();
-
   const [tasks, setTasks] = useState([]);
   const [newTask, setNewTask] = useState('');
-  //const [isLoaded, setIsLoaded] = useState(false);
   const [priority, setPriority] = useState('moyenne');
   const [dueDate, setDueDate] = useState('');
   const [sortBy, setSortBy] = useState('date'); // 'priority' ou 'date'
   const [searchTerm, setSearchTerm] = useState('');
-  //const [theme, setTheme] = useState('light');
   const [editingId, setEditingId] = useState(null); // id de la tâche qu'on édite
   const [editValues, setEditValues] = useState({ text: '', priority: '', dueDate: '' });
+  const [tag, setTag] = useState('perso');
+  const [filterTag, setFilterTag] = useState(''); // pour filtrer par tag
 
-
-
-
-/*useEffect(() => {
-  const savedTheme = localStorage.getItem('theme');
-  if (savedTheme) {
-    setTheme(savedTheme);
-  }
-}, []);
-  const toggleTheme = () => {
-  const newTheme = theme === 'light' ? 'dark' : 'light';
-  setTheme(newTheme);
-  localStorage.setItem('theme', newTheme);
-};*/
-
-
-
-  /*const handleLogout = () => {
-    logout();
-    navigate('/login');
-  };*/
 
 // Charger les tâches une fois que user.email est prêt
 useEffect(() => {
@@ -47,19 +23,11 @@ useEffect(() => {
       .then((data) => {
         const userTasks = data.filter(t => t.email === user.email);
         setTasks(userTasks);
-        //setIsLoaded(true);
       })
       .catch((err) => console.error("Erreur chargement des tâches :", err));
   }
 }, [user]);
 
-
-  //  Sauvegarder les tâches à chaque changement
-{/*useEffect(() => {
-  if (user && user.email && isLoaded) {
-    localStorage.setItem(`tasks-${user.email}`, JSON.stringify(tasks));
-  }
-}, [tasks, user, isLoaded]);*/}
 
   const handleSubmit = async (e) => {
   e.preventDefault();
@@ -71,7 +39,9 @@ useEffect(() => {
     done: false,
     priority: priority,
     dueDate: dueDate,
+    tag, // pour filtrer par tag
     email: user.email, // pour filtrer par utilisateur
+
   };
 
   try {
@@ -107,11 +77,15 @@ const sortTasks = (tasks) => {
     task.text.toLowerCase().includes(searchTerm.toLowerCase())
   );
 
-  if (sortBy === 'priority') {
-    filtered.sort((a, b) => priorityOrder[b.priority] - priorityOrder[a.priority]);
+  // ✅ Appliquer le filtre de tag avant tri
+  if (filterTag) {
+    filtered = filtered.filter(task => task.tag === filterTag);
   }
 
-  if (sortBy === 'date') {
+  // ✅ Trier selon la sélection
+  if (sortBy === 'priority') {
+    filtered.sort((a, b) => priorityOrder[b.priority] - priorityOrder[a.priority]);
+  } else if (sortBy === 'date') {
     filtered.sort((a, b) => {
       if (!a.dueDate) return 1;
       if (!b.dueDate) return -1;
@@ -119,9 +93,9 @@ const sortTasks = (tasks) => {
     });
   }
 
-
   return filtered;
 };
+
 
 const isOverdue = (task) => {
   if (!task.dueDate || task.done) return false;
@@ -154,15 +128,6 @@ const saveEdit = async () => {
     console.error("Erreur édition :", err);
   }
 };
-/*const saveEdit = () => {
-  const updated = tasks.map((task) =>
-    task.id === editingId
-      ? { ...task, ...editValues }
-      : task
-  );
-  setTasks(updated);
-  setEditingId(null);
-};*/
 
 const cancelEdit = () => {
   setEditingId(null);
@@ -174,18 +139,7 @@ const cancelEdit = () => {
 <div >
   <div className="min-h-screen transition-colors duration-200 md:mt-8 bg-white text-black dark:bg-gray-900 dark:text-white p-6 md:p-8">
        <div className="max-w-6xl mx-auto">
-  { /* <div className='flex flex-row space-x-4 space-x-2 justify-between items-center mb-8'>*/}
- {/* <button
-  onClick={toggleTheme}
-  className="transition-colors duration-200  px-4 py-2 bg-gray-200 dark:bg-gray-700 text-gray-800 dark:text-white rounded-md hover:scale-105 transition "
->
-  {theme === 'light' ? '🌙 Mode sombre' : '☀️ Mode clair'}
-  </button>*/}
 
-{  /*<button
-    className=" transition-colors duration-200 bg-indigo-600 hover:bg-indigo-700 text-white px-4 py-2 rounded-md hover:scale-105 transition" onClick={handleLogout}>Déconnexion
-  </button>*/}
-  {/*</div>*/}
     <div>
       <h1 className='text-center text-xl md:text-3xl mb-8'> Bonjour, {user.name || user.email} 👋 !</h1>
 
@@ -199,6 +153,15 @@ const cancelEdit = () => {
     className="transition-colors duration-200 px-4 py-2 rounded-md border border-gray-300 bg-white text-black dark:bg-gray-800 dark:text-white dark:border-gray-600 focus:outline-none focus:ring-2 focus:ring-indigo-500 placeholder:text-gray-400 dark:placeholder:text-gray-500 w-3/4"
     required
   />
+<select
+  value={tag}
+  onChange={(e) => setTag(e.target.value)}
+  className="px-3 py-2 rounded-md border border-gray-300 bg-white text-black dark:bg-gray-800 dark:text-white dark:border-gray-600 focus:outline-none"
+>
+  <option value="perso">Perso</option>
+  <option value="travail">Travail</option>
+  <option value="urgent">Urgent</option>
+</select>
 
   <select
     value={priority}
@@ -231,6 +194,19 @@ const cancelEdit = () => {
     <option value="date">Date limite</option>
     <option value="priority">Priorité</option>
   </select>
+</div>
+<div>
+  <select
+  value={filterTag}
+  onChange={(e) => setFilterTag(e.target.value)}
+  className="mt-4 px-3 py-2 rounded-md border dark:bg-gray-800 dark:text-white"
+>
+  <option value="">Toutes les catégories</option>
+  <option value="perso">Perso</option>
+  <option value="travail">Travail</option>
+  <option value="urgent">Urgent</option>
+</select>
+
 </div>
 <div className="mt-5">
   
@@ -292,6 +268,10 @@ const cancelEdit = () => {
         className={`cursor-pointer flex-1 ${task.done ? 'line-through text-gray-400' : ''}`}
       >
         <p className="font-medium">{task.text}</p>
+        <span className={`text-xs font-semibold text-white px-2 py-0.5 rounded-full  ${task.tag === 'perso' ? 'bg-pink-500' :
+      task.tag === 'travail' ? 'bg-blue-500' : task.tag === 'urgent' ? 'bg-red-500' : 'bg-gray-500'}`}>
+  {task.tag}
+</span>
         <p className="text-sm italic text-gray-500 dark:text-gray-400 flex items-center gap-2">
           ({task.priority}) – {task.dueDate}
           {isOverdue(task) && (

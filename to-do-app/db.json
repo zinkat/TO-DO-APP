@@ -6,7 +6,7 @@
       "name": "zineb"
     },
     {
-      "id": "bf0c",
+      "id": "6f2e",
       "email": "lola@gmail.com",
       "name": "lola"
     }
@@ -46,6 +46,33 @@
       "priority": "haute",
       "dueDate": "2025-06-15",
       "tag": "perso",
+      "email": "zkatim1301@gmail.com"
+    },
+    {
+      "id": "5fb5",
+      "text": "courses",
+      "done": false,
+      "priority": "basse",
+      "dueDate": "2025-06-06",
+      "tag": "perso",
+      "email": "zkatim1301@gmail.com"
+    },
+    {
+      "id": "adbe",
+      "text": "cours",
+      "done": false,
+      "priority": "moyenne",
+      "dueDate": "2025-06-08",
+      "tag": "perso",
+      "email": "zkatim1301@gmail.com"
+    },
+    {
+      "id": "0dda",
+      "text": "tache urgent",
+      "done": false,
+      "priority": "moyenne",
+      "dueDate": "2025-06-06",
+      "tag": "urgent",
       "email": "zkatim1301@gmail.com"
     }
   ]
