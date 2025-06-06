@@ -72,7 +72,7 @@ Frontend : http://localhost:5173
 
 Ce projet fait partie de mon portfolio personnel.  
 Je suis développeuse front-end React junior à la recherche d’une première opportunité.  
-N’hésitez pas à me contacter sur LinkedIn ou à consulter mes autres projets.
+N’hésitez pas à me contacter sur LinkedIn : https://www.linkedin.com/in/zineb-katim/ ou à consulter mes autres projets.
 
 ## 🧠 Leçon apprise  
 

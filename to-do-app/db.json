@@ -13,66 +13,102 @@
   ],
   "tasks": [
     {
-      "id": "7f1f",
-      "text": "html",
-      "done": false,
+      "id": "48a6",
+      "text": "tache perso ",
       "priority": "moyenne",
-      "dueDate": "2025-06-13",
+      "dueDate": "2025-06-07",
       "tag": "perso",
-      "email": "zkatim1301@gmail.com"
+      "email": "zkatim1301@gmail.com",
+      "done": false
     },
     {
-      "id": "92be",
-      "text": "css",
-      "done": false,
+      "id": "71c1",
+      "text": "tache pro",
       "priority": "moyenne",
-      "dueDate": "2025-06-13",
+      "dueDate": "2025-06-08",
       "tag": "travail",
-      "email": "zkatim1301@gmail.com"
+      "email": "zkatim1301@gmail.com",
+      "done": true
     },
     {
-      "id": "7c53",
-      "text": "java",
+      "id": "5e76",
+      "text": "tache perso moyenne",
+      "priority": "moyenne",
+      "dueDate": "2025-06-08",
+      "tag": "perso",
+      "email": "zkatim1301@gmail.com",
+      "done": false
+    },
+    {
+      "id": "4209",
+      "text": "tache perso Haute",
       "done": false,
       "priority": "haute",
-      "dueDate": "2025-06-15",
-      "tag": "travail",
-      "email": "zkatim1301@gmail.com"
-    },
-    {
-      "id": "93ec",
-      "text": "react",
-      "done": false,
-      "priority": "haute",
-      "dueDate": "2025-06-15",
-      "tag": "perso",
-      "email": "zkatim1301@gmail.com"
-    },
-    {
-      "id": "5fb5",
-      "text": "courses",
-      "done": false,
-      "priority": "basse",
-      "dueDate": "2025-06-06",
-      "tag": "perso",
-      "email": "zkatim1301@gmail.com"
-    },
-    {
-      "id": "adbe",
-      "text": "cours",
-      "done": false,
-      "priority": "moyenne",
       "dueDate": "2025-06-08",
       "tag": "perso",
       "email": "zkatim1301@gmail.com"
     },
     {
-      "id": "0dda",
-      "text": "tache urgent",
+      "id": "0194",
+      "text": "tache pro basse",
+      "priority": "basse",
+      "dueDate": "2025-06-08",
+      "tag": "travail",
+      "email": "zkatim1301@gmail.com",
+      "done": false
+    },
+    {
+      "id": "62e8",
+      "text": "html",
+      "done": true,
+      "priority": "basse",
+      "dueDate": "2025-06-19",
+      "tag": "travail",
+      "email": "zkatim1301@gmail.com"
+    },
+    {
+      "id": "c6dc",
+      "text": "CSS",
       "done": false,
       "priority": "moyenne",
-      "dueDate": "2025-06-06",
-      "tag": "urgent",
+      "dueDate": "2025-06-19",
+      "tag": "travail",
+      "email": "zkatim1301@gmail.com"
+    },
+    {
+      "id": "7f56",
+      "text": "React",
+      "done": false,
+      "priority": "haute",
+      "dueDate": "2025-06-21",
+      "tag": "travail",
+      "email": "zkatim1301@gmail.com"
+    },
+    {
+      "id": "2591",
+      "text": "faire des courses",
+      "done": false,
+      "priority": "haute",
+      "dueDate": "2025-06-21",
+      "tag": "perso",
+      "email": "zkatim1301@gmail.com"
+    },
+    {
+      "id": "28b6",
+      "text": "test statu",
+      "done": false,
+      "priority": "basse",
+      "dueDate": "2025-06-07",
+      "tag": "perso",
+      "email": "zkatim1301@gmail.com"
+    },
+    {
+      "id": "f4a5",
+      "text": "faire des cours",
+      "done": true,
+      "priority": "moyenne",
+      "dueDate": "",
+      "tag": "perso",
       "email": "zkatim1301@gmail.com"
     }
   ]
