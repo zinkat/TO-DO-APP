@@ -16,52 +16,38 @@
       "id": "48a6",
       "text": "tache perso ",
       "priority": "moyenne",
-      "dueDate": "2025-06-07",
+      "dueDate": "2025-06-15",
       "tag": "perso",
-      "email": "zkatim1301@gmail.com",
-      "done": false
+      "email": "zkatim1301@gmail.com"
     },
     {
       "id": "71c1",
       "text": "tache pro",
       "priority": "moyenne",
-      "dueDate": "2025-06-08",
+      "dueDate": "2025-06-10",
       "tag": "travail",
-      "email": "zkatim1301@gmail.com",
-      "done": true
+      "email": "zkatim1301@gmail.com"
     },
     {
       "id": "5e76",
       "text": "tache perso moyenne",
       "priority": "moyenne",
-      "dueDate": "2025-06-08",
-      "tag": "perso",
-      "email": "zkatim1301@gmail.com",
-      "done": false
-    },
-    {
-      "id": "4209",
-      "text": "tache perso Haute",
-      "done": false,
-      "priority": "haute",
-      "dueDate": "2025-06-08",
+      "dueDate": "2025-06-15",
       "tag": "perso",
       "email": "zkatim1301@gmail.com"
     },
     {
-      "id": "0194",
-      "text": "tache pro basse",
-      "priority": "basse",
-      "dueDate": "2025-06-08",
-      "tag": "travail",
-      "email": "zkatim1301@gmail.com",
-      "done": false
+      "id": "4209",
+      "text": "tache perso Haute",
+      "priority": "haute",
+      "dueDate": "2025-06-15",
+      "tag": "urgent",
+      "email": "zkatim1301@gmail.com"
     },
     {
       "id": "62e8",
       "text": "html",
-      "done": true,
-      "priority": "basse",
+      "priority": "moyenne",
       "dueDate": "2025-06-19",
       "tag": "travail",
       "email": "zkatim1301@gmail.com"
@@ -96,18 +82,26 @@
     {
       "id": "28b6",
       "text": "test statu",
-      "done": false,
       "priority": "basse",
-      "dueDate": "2025-06-07",
+      "dueDate": "2025-06-15",
       "tag": "perso",
       "email": "zkatim1301@gmail.com"
     },
     {
-      "id": "f4a5",
-      "text": "faire des cours",
-      "done": true,
+      "id": "f771",
+      "text": "new tache pro",
+      "done": false,
       "priority": "moyenne",
-      "dueDate": "",
+      "dueDate": "2025-06-12",
+      "tag": "travail",
+      "email": "zkatim1301@gmail.com"
+    },
+    {
+      "id": "5535",
+      "text": "new tache perso",
+      "done": false,
+      "priority": "moyenne",
+      "dueDate": "2025-06-10",
       "tag": "perso",
       "email": "zkatim1301@gmail.com"
     }
