@@ -1,5 +1,6 @@
 import { useAuth } from '../auth/AuthContext';
 import { useState, useEffect } from 'react';
+import toast from 'react-hot-toast';
 import { getTasks, addTask, updateTask, deleteTask as deleteTaskAPI } from '../api';
 import TaskForm from '../components/TaskForm';
 import TaskFilters from '../components/TaskFilters';
@@ -68,9 +69,11 @@ function HomePage() {
     setDueDate('');
     setPriority('moyenne');
     setTag('perso');
+    toast.success("Tâche ajoutée avec succès !");
   } catch (error) {
     console.error("Erreur ajout tâche :", error);
     setError("Erreur lors de l'ajout de la tâche.");
+    toast.error("Erreur lors de l'ajout de la tâche.");
   }
 };
 
@@ -88,14 +91,37 @@ function HomePage() {
     }
   };
 
-  const handleDelete = async (id) => {
-    try {
-      await deleteTaskAPI(id);
-      setTasks(tasks.filter(task => task.id !== id));
-    } catch (error) {
-      console.error("Erreur suppression tâche :", error);
-    }
-  };
+const handleDelete = async (id) => {
+  const taskToDelete = tasks.find(task => task.id === id);
+  if (!taskToDelete) return;
+
+  try {
+    await deleteTaskAPI(id); // suppression réelle immédiate
+    setTasks(tasks.filter(task => task.id !== id));
+
+    toast((t) => (
+      <span>
+        Tâche supprimée
+        <button
+          onClick={async () => {
+            const restoredTask = { ...taskToDelete, id: undefined }; // id undefined pour que addTask en génère un nouveau
+            const recreated = await addTask(restoredTask);
+            setTasks((prev) => [...prev, recreated]);
+            toast.dismiss(t.id);
+          }}
+          className="ml-4 px-2 py-0.5 text-xs font-medium bg-indigo-600 text-indigo-100 border border-indigo-400 rounded hover:bg-indigo-100 hover:text-indigo-600 transition-colors duration-200">
+          Annuler
+        </button>
+      </span>
+    ), { duration: 5000 });
+
+  } catch (error) {
+    console.error("Erreur suppression tâche :", error);
+    toast.error("Erreur lors de la suppression.");
+  }
+};
+
+
 
   const startEditing = (task) => {
     setEditingId(task.id);
@@ -113,8 +139,10 @@ function HomePage() {
       await updateTask(editedTask);
       setTasks(tasks.map(task => task.id === editingId ? editedTask : task));
       setEditingId(null);
+          toast.success("Tâche modifiée avec succès !");
     } catch (err) {
       console.error("Erreur édition :", err);
+       toast.success("Erreur lors de la modification !");
     }
   };
 
