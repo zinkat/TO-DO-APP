@@ -11,5 +11,41 @@
       "name": "lola"
     }
   ],
-  "tasks": []
+  "tasks": [
+    {
+      "id": "a4ad",
+      "text": "urgent",
+      "done": false,
+      "priority": "haute",
+      "dueDate": "2025-06-13",
+      "tag": "urgent",
+      "email": "zkatim1301@gmail.com"
+    },
+    {
+      "id": "ccc9",
+      "text": "css",
+      "priority": "moyenne",
+      "dueDate": "2025-06-13",
+      "tag": "travail",
+      "email": "zkatim1301@gmail.com"
+    },
+    {
+      "id": "2052",
+      "text": "css",
+      "done": false,
+      "priority": "moyenne",
+      "dueDate": "2025-06-12",
+      "tag": "travail",
+      "email": "zkatim1301@gmail.com"
+    },
+    {
+      "id": "0000",
+      "text": "faire sport",
+      "priority": "moyenne",
+      "dueDate": "2025-06-11",
+      "tag": "perso",
+      "email": "zkatim1301@gmail.com",
+      "done": false
+    }
+  ]
 }

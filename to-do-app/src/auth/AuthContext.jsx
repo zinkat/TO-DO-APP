@@ -1,4 +1,5 @@
 import { createContext, useContext, useEffect, useState } from 'react';
+import { auth, db } from '../firebase'; 
 
 const AuthContext = createContext();
 
@@ -6,21 +7,20 @@ export function AuthProvider({ children }) {
   const [user, setUser] = useState(null);
   const [loading, setLoading] = useState(true);
 
- useEffect(() => {
-  try {
-    const storedUser = JSON.parse(localStorage.getItem('user'));
-    if (storedUser && typeof storedUser === 'object') {
-      setUser(storedUser);
-    } else {
-      localStorage.removeItem('user'); // 🔒 sécurité en cas de format cassé
+  useEffect(() => {
+    try {
+      const storedUser = JSON.parse(localStorage.getItem('user'));
+      if (storedUser && typeof storedUser === 'object') {
+        setUser(storedUser);
+      } else {
+        localStorage.removeItem('user');
+      }
+    } catch {
+      localStorage.removeItem('user');
     }
-  } catch {
-    localStorage.removeItem('user');
-  }
-  setLoading(false);
-}, []);
+    setLoading(false);
+  }, []);
 
-  // ✅ Corrigé : accepte un objet user complet
   const login = (userData) => {
     setUser(userData);
     localStorage.setItem('user', JSON.stringify(userData));
