@@ -1,4 +1,4 @@
-import { useState } from 'react';
+/*import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../auth/AuthContext'; 
 import { findUserByEmail, registerUser } from '../api';
@@ -54,4 +54,78 @@ login(user);
   );
 }
 
+export default RegisterPage;*/
+
+import { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
+import { createUserWithEmailAndPassword } from 'firebase/auth';
+import { auth } from '../firebase';
+import toast from 'react-hot-toast';
+
+function RegisterPage() {
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+  const [confirm, setConfirm] = useState('');
+  const navigate = useNavigate();
+
+  const handleRegister = async (e) => {
+    e.preventDefault();
+
+    if (password !== confirm) {
+      toast.error("Les mots de passe ne correspondent pas.");
+      return;
+    }
+
+    try {
+      await createUserWithEmailAndPassword(auth, email, password);
+      toast.success("Compte créé avec succès !");
+      navigate('/');
+    } catch (error) {
+      console.error("Erreur d'inscription :", error);
+      toast.error("Erreur lors de la création du compte.");
+    }
+  };
+
+  return (
+    <div className="min-h-screen bg-white dark:bg-gray-900 text-black dark:text-white">
+      <div className="flex flex-col items-center justify-center py-10">
+        <h1 className="text-3xl mb-6 font-semibold">Créer un compte</h1>
+        <form onSubmit={handleRegister} className="space-y-4 w-full max-w-sm">
+          <input
+            type="email"
+            placeholder="Email"
+            required
+            className="w-full px-4 py-2 border rounded text-black dark:text-white dark:bg-gray-800 dark:border-gray-600"
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+          />
+          <input
+            type="password"
+            placeholder="Mot de passe"
+            required
+            className="w-full px-4 py-2 border rounded text-black dark:text-white dark:bg-gray-800 dark:border-gray-600"
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
+          />
+          <input
+            type="password"
+            placeholder="Confirmez le mot de passe"
+            required
+            className="w-full px-4 py-2 border rounded text-black dark:text-white dark:bg-gray-800 dark:border-gray-600"
+            value={confirm}
+            onChange={(e) => setConfirm(e.target.value)}
+          />
+          <button
+            type="submit"
+            className="w-full bg-indigo-600 hover:bg-indigo-700 text-white py-2 rounded"
+          >
+            S’inscrire
+          </button>
+        </form>
+      </div>
+    </div>
+  );
+}
+
 export default RegisterPage;
+     

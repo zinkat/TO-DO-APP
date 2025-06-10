@@ -1,4 +1,4 @@
-import { useState } from 'react';
+/*import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../auth/AuthContext';
 import { findUserByEmail } from '../api'; 
@@ -40,4 +40,58 @@ function LoginPage() {
   );
 }
 
+export default LoginPage;*/
+
+import { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
+import { signInWithEmailAndPassword } from 'firebase/auth';
+import { auth } from '../firebase';
+
+function LoginPage() {
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+  const navigate = useNavigate();
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    try {
+      await signInWithEmailAndPassword(auth, email, password);
+      navigate('/');
+    } catch (err) {
+      alert("Connexion échouée. Vérifie l'email ou le mot de passe.");
+      console.error(err);
+    }
+  };
+
+  return (
+    <div className="min-h-screen bg-white dark:bg-gray-900 text-black dark:text-white">
+      <div className="flex flex-col items-center justify-center p-6">
+        <h1 className="text-3xl mb-6">Connexion</h1>
+        <form onSubmit={handleSubmit} className="space-y-4 w-full max-w-sm">
+          <input
+            type="email"
+            placeholder="Email"
+            required
+            className="w-full px-4 py-2 border rounded"
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+          />
+          <input
+            type="password"
+            placeholder="Mot de passe"
+            required
+            className="w-full px-4 py-2 border rounded"
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
+          />
+          <button className="w-full bg-indigo-600 text-white py-2 rounded">
+            Se connecter
+          </button>
+        </form>
+      </div>
+    </div>
+  );
+}
+
 export default LoginPage;
+    
