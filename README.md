@@ -1,84 +1,121 @@
-# 📝 To-Do App – Gestionnaire de tâches avec React + Vite & JSON Server
 
-Bienvenue sur mon application de gestion de tâches développée avec **React**, **Tailwind CSS** et une **API REST simulée** via `json-server`.  
-Ce projet est conçu pour démontrer ma capacité à construire une application web moderne en respectant les bonnes pratiques de développement.
+# 📝 To-Do App – Gestionnaire de tâches React + Firebase
+
+Bienvenue sur mon application de gestion de tâches construite avec **React**, **Tailwind CSS** et **Firebase** (authentification + base de données Firestore).  
+Elle est entièrement responsive et déployée en production via Vercel.
 
 ---
 
 ## 🚀 Fonctionnalités
 
-- ✅ Authentification simple (email)
-- ✅ Création, modification, suppression de tâches
-- ✅ Tri par date ou priorité
+- ✅ Authentification sécurisée (email + mot de passe)
+- ✅ Ajout, édition et suppression de tâches
+- ✅ Filtrage par priorité, tag et état (fait / à faire)
+- ✅ Tri dynamique (date ou priorité)
 - ✅ Recherche en temps réel
+- ✅ Interface responsive (mobile friendly)
 - ✅ Mode sombre (dark mode)
-- ✅ Alertes pour tâches en retard
-- ✅ Interface responsive avec Tailwind CSS
-- ✅ Backend simulé avec JSON Server (API REST)
+- ✅ Notifications (toasts) avec feedback utilisateur
+- ✅ Stockage en base de données Firebase Firestore
 
 ---
 
-## 🛠️ Stack utilisée
+## 🔧 Stack utilisée
 
-- **React 19** avec Hooks
-- **React Router DOM**
-- **Tailwind CSS** pour le design
-- **JSON Server** pour simuler une base de données
-- **LocalStorage** (étape 1), puis migration vers API REST (étape 2)
+- ⚛️ **React 19**
+- 🎨 **Tailwind CSS**
+- 🔥 **Firebase** (Auth + Firestore)
+- 🚦 **React Router DOM**
+- 🍞 **React Hot Toast** (notifications)
+- ☁️ **Vercel** pour le déploiement
 
 ---
 
-## 📦 Installation
+## 🔐 Authentification
 
-# 1. Clone le projet :
-```
+- Création de compte via **Firebase Auth**
+- Connexion sécurisée
+- Gestion automatique de la session utilisateur
+- Données personnelles (tâches) liées à l'email
+
+---
+
+## 📦 Installation en local (mode dev)
+
+> ⚠️ Le projet utilise des variables d’environnement pour Firebase. Crée un fichier `.env.local`.
+
+### 1. Clone le projet
+
+```bash
 git clone https://github.com/zinkat/TO-DO-APP.git
-cd to-do-app
- ```
-
-# 2. Installe les dépendances :
+cd TO-DO-APP
 ```
+
+### 2. Installe les dépendances
+
+```bash
 npm install
 ```
-# 3. Lance le frontend :
+
+### 3. Crée un fichier `.env.local` et ajoute tes clés Firebase
+
+```env
+VITE_FIREBASE_API_KEY=...
+VITE_FIREBASE_AUTH_DOMAIN=...
+VITE_FIREBASE_PROJECT_ID=...
+VITE_FIREBASE_STORAGE_BUCKET=...
+VITE_FIREBASE_MESSAGING_SENDER_ID=...
+VITE_FIREBASE_APP_ID=...
 ```
+
+### 4. Lance le projet
+
+```bash
 npm run dev
 ```
-# 4. Dans un terminal séparé, lance le backend JSON Server :
-```
-json-server --watch db.json --port 3001
-```
+
 ---
 
-## 🔗 Accès rapide  
+## 🌍 Déploiement
 
+Le projet est déployé gratuitement via [**Vercel**](https://vercel.com/).  
+Lien du projet en ligne : 👉 https://to-do-app-jiq5.vercel.app/
 
-API REST : http://localhost:3001/tasks  
-Frontend : http://localhost:5173
+---
 
+## 🧱 Architecture
+
+- `src/pages/` → pages principales (Login, Register, Home)
+- `src/components/` → composants réutilisables (Formulaire, Tâche, Filtres, Pagination)
+- `src/api/` → appels Firebase (CRUD tâches, auth)
+- `src/auth/` → gestion du contexte utilisateur
+
+---
 
 ## ✅ Améliorations futures
 
-🔐 Authentification avec users dans l’API
+- 📆 Ajout d’un calendrier ou vue agenda
+- 🔄 Synchronisation multi-appareils en temps réel
+- 📱 Ajout d’une PWA (Progressive Web App)
+- 💬 Ajout de sous-tâches ou commentaires
+- 🔒 Gestion des rôles (admin / utilisateur)
 
-📝 Ajout de catégories ou de tags
+---
 
-📲 Version mobile avec PWA
-
-🌍 Déploiement sur Netlify ou Vercel
-
-
-## 🙋‍♀️ À propos  
+## 🙋‍♀️ À propos
 
 Ce projet fait partie de mon portfolio personnel.  
-Je suis développeuse front-end React junior à la recherche d’une première opportunité.  
-N’hésitez pas à me contacter sur LinkedIn : https://www.linkedin.com/in/zineb-katim/ ou à consulter mes autres projets.
+Je suis **développeuse front-end React junior** à la recherche de nouvelles opportunités.
 
-## 🧠 Leçon apprise  
+💼 [LinkedIn – Zineb Katim](https://www.linkedin.com/in/zineb-katim/)  
+📂 [Mes autres projets sur GitHub](https://github.com/zinkat)
 
-Ce projet m’a permis de :
+---
 
-Approfondir ma compréhension de React
-Comprendre comment consommer une API REST
-Organiser mon code proprement (composants + logique API)
-M’exercer à utiliser Tailwind CSS efficacement
+## 🧠 Leçons apprises
+
+- Maîtrise de Firebase (Auth + Firestore)
+- Gestion d'état globale via `useContext`
+- Connexion/déconnexion sécurisée
+- Intégration continue (Vercel)
+- Organisation modulaire d’un projet React pro
