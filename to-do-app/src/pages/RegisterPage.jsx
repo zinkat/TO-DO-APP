@@ -61,11 +61,14 @@ import { useNavigate } from 'react-router-dom';
 import { createUserWithEmailAndPassword } from 'firebase/auth';
 import { auth } from '../firebase';
 import toast from 'react-hot-toast';
+import { updateProfile } from 'firebase/auth';
 
 function RegisterPage() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [confirm, setConfirm] = useState('');
+  const [name, setName] = useState('');
+
   const navigate = useNavigate();
 
   const handleRegister = async (e) => {
@@ -78,6 +81,7 @@ function RegisterPage() {
 
     try {
       await createUserWithEmailAndPassword(auth, email, password);
+      await updateProfile(auth.currentUser, { displayName: name });
       toast.success("Compte créé avec succès !");
       navigate('/');
     } catch (error) {
@@ -98,6 +102,14 @@ function RegisterPage() {
             className="w-full px-4 py-2 border rounded text-black dark:text-white dark:bg-gray-800 dark:border-gray-600"
             value={email}
             onChange={(e) => setEmail(e.target.value)}
+          />
+          <input
+            type="text"
+            placeholder="Nom complet"
+            required
+            className="w-full px-4 py-2 border rounded text-black dark:text-white dark:bg-gray-800 dark:border-gray-600"
+            value={name}
+            onChange={(e) => setName(e.target.value)}
           />
           <input
             type="password"

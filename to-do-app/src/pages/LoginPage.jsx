@@ -72,7 +72,7 @@ function LoginPage() {
             type="email"
             placeholder="Email"
             required
-            className="w-full px-4 py-2 border rounded"
+            className="w-full px-4 py-2 border rounded text-black dark:text-white dark:bg-gray-800 dark:border-gray-600"
             value={email}
             onChange={(e) => setEmail(e.target.value)}
           />
@@ -80,7 +80,7 @@ function LoginPage() {
             type="password"
             placeholder="Mot de passe"
             required
-            className="w-full px-4 py-2 border rounded"
+            className="w-full px-4 py-2 border rounded text-black dark:text-white dark:bg-gray-800 dark:border-gray-600"
             value={password}
             onChange={(e) => setPassword(e.target.value)}
           />

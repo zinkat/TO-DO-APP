@@ -28,16 +28,16 @@ function HomePage() {
     setCurrentPage(1);
   }, [searchTerm, sortBy, filterTag, filterDone]);
 
-  useEffect(() => {
-    if (user && user.email) {
-      getTasks()
-        .then((data) => {
-          const userTasks = data.filter(t => t.email === user.email);
-          setTasks(userTasks);
-        })
-        .catch((err) => console.error("Erreur chargement des tâches :", err));
-    }
-  }, [user]);
+useEffect(() => {
+  if (user && user.email) {
+    console.log("Utilisateur connecté :", user);
+    getTasks(user.email)
+      .then(setTasks)
+      .catch(err => {
+        console.error("Erreur lors du chargement des tâches :", err);
+      });
+  }
+}, [user]);
 
   const handleSubmit = async (e) => {
   e.preventDefault();
@@ -61,7 +61,7 @@ function HomePage() {
     tag,
     email: user.email,
   };
-  await addTask(task);
+
   try {
     const createdTask = await addTask(task);
     setTasks([...tasks, createdTask]);
@@ -188,7 +188,7 @@ const handleDelete = async (id) => {
       <div className="max-w-6xl mx-auto">
         <div className="flex flex-row mb-8 justify-center space-x-4 space-y-2">
           <img src="he.png" alt="bonjour" />
-          <h1 className="text-xl md:text-3xl">{user.name || user.email} !</h1>
+          <h1 className="text-xl md:text-3xl">{user.displayName || user.email} !</h1>
         </div>
 
         {/* Formulaire d'ajout */}

@@ -1,4 +1,43 @@
-export const getTasks = async () => {
+// src/api.js
+import { db } from './firebase';
+import {
+  collection,
+  addDoc,
+  getDocs,
+  updateDoc,
+  deleteDoc,
+  doc,
+  query,
+  where,
+} from 'firebase/firestore';
+
+// 📥 Lire les tâches pour un utilisateur
+export const getTasks = async (email) => {
+  const q = query(collection(db, 'tasks'), where('email', '==', email));
+  const snapshot = await getDocs(q);
+  return snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
+};
+
+// ➕ Ajouter une tâche
+export const addTask = async (task) => {
+  const docRef = await addDoc(collection(db, 'tasks'), task);
+  return { id: docRef.id, ...task };
+};
+
+// ✏️ Mettre à jour une tâche
+export const updateTask = async (task) => {
+  const ref = doc(db, 'tasks', task.id);
+  const { id, ...data } = task;
+  await updateDoc(ref, data);
+};
+
+// ❌ Supprimer une tâche
+export const deleteTask = async (id) => {
+  await deleteDoc(doc(db, 'tasks', id));
+};
+
+
+/*export const getTasks = async () => {
   const res = await fetch('http://localhost:3001/tasks');
   return res.json();
 };
@@ -23,7 +62,7 @@ export const deleteTask = async (id) => {
   await fetch(`http://localhost:3001/tasks/${id}`, {
     method: 'DELETE',
   });
-};
+};*/
 // Rechercher un utilisateur par email
 /*export const findUserByEmail = async (email) => {
   const res = await fetch(`http://localhost:3001/users?email=${email}`);

@@ -23,7 +23,7 @@ function Navbar({ toggleTheme, theme }) {
         {user ? (
           <>
             <span className="text-gray-700 dark:text-gray-300 text-xs md:text-base ">
-        Bienvenue, {user?.name || user?.email || 'Utilisateur'}
+        Bienvenue, {user.displayName || user.email || 'Utilisateur'}
 
             </span>
             <button
