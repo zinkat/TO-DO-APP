@@ -1,4 +1,3 @@
-// src/api.js
 import { db } from './firebase';
 import {
   collection,
@@ -11,32 +10,32 @@ import {
   where,
 } from 'firebase/firestore';
 
-// 📥 Lire les tâches pour un utilisateur
+// Lire les tâches pour un utilisateur
 export const getTasks = async (email) => {
   const q = query(collection(db, 'tasks'), where('email', '==', email));
   const snapshot = await getDocs(q);
   return snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
 };
 
-// ➕ Ajouter une tâche
+//  Ajouter une tâche
 export const addTask = async (task) => {
   const docRef = await addDoc(collection(db, 'tasks'), task);
   return { id: docRef.id, ...task };
 };
 
-// ✏️ Mettre à jour une tâche
+//  Mettre à jour une tâche
 export const updateTask = async (task) => {
-  const ref = doc(db, 'tasks', task.id);
   const { id, ...data } = task;
+  const ref = doc(db, 'tasks', id); 
   await updateDoc(ref, data);
 };
 
-// ❌ Supprimer une tâche
+//  Supprimer une tâche
 export const deleteTask = async (id) => {
   await deleteDoc(doc(db, 'tasks', id));
 };
 
-
+///api.js json server version
 /*export const getTasks = async () => {
   const res = await fetch('http://localhost:3001/tasks');
   return res.json();
